@@ -1,0 +1,178 @@
+{{>licenseInfo}}
+defmodule {{moduleName}}.Client do
+  alias {{moduleName}}.Api.{{className}}
+  alias {{moduleName}}.Model.CreateStoreRequest
+
+
+  def connection() do
+    {{moduleName}}.Connection.new()
+  end
+
+  def store_id() do
+    Application.get_env(:openfga, :store_id)
+  end
+
+
+  #
+  # STORES
+  #
+
+  @spec list_stores(opts :: keyword()) :: {:ok, OpenFGA.Model.ListStoresResponse.t} | {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def list_stores(opts \\ []) do
+    connection()
+    |> {{className}}.list_stores(opts)
+  end
+
+  @spec create_store(store_name :: String.t, keyword()) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.CreateStoreResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def create_store(store_name) do
+    create_store_request = %CreateStoreRequest{name: store_name}
+
+    connection()
+    |> {{className}}.create_store(create_store_request)
+  end
+
+  @spec get_store(store_id :: String.t()) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:ok, OpenFGA.Model.GetStoreResponse.t} | {:error, Tesla.Env.t}
+  def get_store(store_id) do
+    connection()
+    |> {{className}}.get_store(store_id)
+  end
+
+  @spec delete_store(store_id :: String.t()) :: {:ok, nil} | {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def delete_store(store_id) do
+    connection()
+    |> {{className}}.delete_store(store_id)
+  end
+
+  #
+  # Authorization Models
+  #
+
+  @spec read_authorization_models(opts :: keyword()) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ReadAuthorizationModelsResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def read_authorization_models(opts \\ []) do
+    connection()
+    |> {{className}}.read_authorization_models(store_id(), opts)
+  end
+
+  @spec write_authorization_model(body :: OpenFGA.Model.WriteAuthorizationModelRequest.t) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.WriteAuthorizationModelResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def write_authorization_model(body) do
+    connection()
+    |> {{className}}.write_authorization_model(store_id(), body)
+  end
+
+  @spec read_authorization_model(id :: String.t) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.ReadAuthorizationModelResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def read_authorization_model(id) do
+    connection()
+    |> {{className}}.read_authorization_model(store_id(), id)
+  end
+
+  def read_latest_authorization_model() do
+    connection()
+    |> {{className}}.read_authorization_models(store_id(), [page_size: 1])
+  end
+
+  #
+  # Relationship Tuples
+  #
+
+  @spec read_changes(opts :: keyword()) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:ok, OpenFGA.Model.ReadChangesResponse.t} | {:error, Tesla.Env.t}
+  def read_changes(opts \\ []) do
+    connection()
+    |> {{className}}.read_changes(store_id(), opts)
+  end
+
+  @spec read(body :: OpenFGA.Model.ReadRequest.t) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.ReadResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def read(body) do
+    connection()
+    |> {{className}}.read(store_id(), body)
+  end
+
+  @spec write(body :: OpenFGA.Model.WriteRequest.t) :: {:ok, map()} | {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def write(body) do
+    connection()
+    |> {{className}}.write(store_id(), body)
+  end
+
+  @spec write_tuples(tuples :: [OpenFGA.Model.TupleKey])
+  def write_tuples() do
+    alias OpenFGA.Model.WriteRequest
+    alias OpenFGA.Model.WriteRequestWrites
+
+    write_request =
+      tuples
+      |> then(&Map.put(%WriteRequestWrites{}, :tuple_keys, &1))
+      |> then(&Map.put(%WriteRequest{}, :writes, &1))
+
+    write(write_request)
+  end
+
+  @spec delete_tuples(tuples :: [OpenFGA.Model.TupleKey])
+  def delete_tuples() do
+    alias OpenFGA.Model.WriteRequest
+    alias OpenFGA.Model.WriteRequestWrites
+
+    write_request =
+      tuples
+      |> then(&Map.put(%WriteRequestWrites{}, :tuple_keys, &1))
+      |> then(&Map.put(%WriteRequest{}, :deletes, &1))
+
+    write(write_request)
+  end
+
+  #
+  # Relationship Queries
+  #
+
+  @spec check(body:: OpenFGA.Model.CheckRequest.t) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.CheckResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def check(body) do
+    connection()
+    |> {{className}}.check(store_id(), body)
+  end
+
+  @spec batch_check(body :: OpenFGA.Model.BatchCheckRequest.t) :: {:ok, OpenFGA.Model.BatchCheckResponse.t} | {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def batch_check(body) do
+    connection()
+    |> {{className}}.batch_check(store_id(), body)
+  end
+
+  @spec expand(body :: OpenFGA.Model.ExpandRequest.t) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:ok, OpenFGA.Model.ExpandResponse.t} | {:error, Tesla.Env.t}
+  def expand(body) do
+    connection()
+    |> {{className}}.expand(store_id(), body)
+  end
+
+  @spec list_objects(body :: OpenFGA.Model.ListObjectsRequest.t) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.ListObjectsResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def list_objects(body) do
+    connection()
+    |> {{className}}.list_objects(store_id(), body)
+  end
+
+  def list_relations(body) do
+    res =
+      body
+      |> batch_check()
+
+
+  end
+
+  @spec list_users(body :: OpenFGA.Model.ListUsersRequest.t) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:ok, OpenFGA.Model.ListUsersResponse.t} | {:error, Tesla.Env.t}
+  def list_users(body) do
+    connection()
+    |> {{className}}.list_users(store_id(), body)
+  end
+
+  #
+  # Assertions
+  #
+
+  @spec read_assertions(authorization_model_id ::  String.t) :: {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:ok, OpenFGA.Model.ReadAssertionsResponse.t} | {:error, Tesla.Env.t}
+  def read_assertions(authorization_model_id) do
+    connection()
+    |> {{className}}.read_assertions(store_id(), authorization_model_id)
+  end
+
+  @spec write_assertions(authorization_model_id :: String.t, body :: OpenFGA.Model.WriteAssertionsRequest.t) :: {:ok, nil} | {:ok, OpenFGA.Model.ForbiddenResponse.t} | {:ok, OpenFGA.Model.InternalErrorMessageResponse.t} | {:ok, OpenFGA.Model.ValidationErrorMessageResponse.t} | {:ok, OpenFGA.Model.PathUnknownErrorMessageResponse.t} | {:ok, OpenFGA.Model.AbortedMessageResponse.t} | {:ok, OpenFGA.Model.UnprocessableContentMessageResponse.t} | {:ok, OpenFGA.Model.UnauthenticatedResponse.t} | {:error, Tesla.Env.t}
+  def write_assertions(authorization_model_id, body) do
+    connection()
+    |> {{className}}.write_assertions(store_id(), authorization_model_id, body)
+  end
+end

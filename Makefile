@@ -155,6 +155,14 @@ test-client-java: build-client-java
 test-integration-client-java: test-client-java
 	make run-in-docker sdk_language=java image=gradle:${GRADLE_DOCKER_TAG} command="/bin/sh -c 'gradle test-integration'"
 
+### Elixir
+.PHONY: build-client-elixir
+build-client-elixir:
+	make build-client sdk_language=elixir tmpdir=${TMP_DIR} OPENAPI_GENERATOR_CLI_DOCKER_TAG=v7.10.0
+
+.PHONY: test-client-elixir
+test-client-elixir: build-client-elixir
+	
 .PHONY: run-in-docker
 run-in-docker:
 	docker run --rm \

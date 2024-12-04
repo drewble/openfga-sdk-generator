@@ -1,0 +1,7 @@
+{
+  "repo": "https://github.com/OpenAPITools/openapi-generator",
+  "branch": "master",
+  "commit": "7b35613cfc42dd1e473f0adc5962b5ad48db019c",
+  "url": "https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/elixir",
+  "docs": "https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/elixir.md"
+}
